@@ -145,9 +145,8 @@ export class Tree {
     }
   }
 
-  getCodeIncPlusPlus() : Array<string> {
-    const temp = this.root;
-    const codeString = `Node* root`;
+  getCodeIncPlusPlus(): Array<string> {
+    const codeString = `root`;
     const resultArray: Array<string> = [];
     this.getCodeIncPlusPlusUtil(
       this.root,
@@ -156,6 +155,9 @@ export class Tree {
       false,
       resultArray
     );
+    if (resultArray[0]) {
+      resultArray[0] = "Node* " + resultArray[0];
+    }
     return resultArray;
   }
 }

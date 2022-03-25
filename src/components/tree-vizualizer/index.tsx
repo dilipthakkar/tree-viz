@@ -15,6 +15,7 @@ import { CodeOutlined } from "@mui/icons-material";
 import { stringToArray, getCodeFromArray } from "../../utils/functions";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import {v4} from "uuid";
 
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -109,7 +110,6 @@ const TreeVisualizer = (props: { radius?: number }) => {
                 setTextFieldData(e.target.value);
               }}
               onKeyDown={(e) => {
-                console.log(e);
                 if (e.code === "Enter") {
                   onSubmit();
                 }
@@ -235,9 +235,9 @@ const TreeVisualizer = (props: { radius?: number }) => {
             viewBox={`0 0 ${viewport.x} ${viewport.y}`}
           >
             <g id="my-svg">
-              {canvasTree?.map((data) => {
+              {canvasTree?.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <circle
                       cx={data.circleX}
                       cy={data.circleY}
@@ -250,19 +250,19 @@ const TreeVisualizer = (props: { radius?: number }) => {
                     <text
                       x={data.circleX}
                       y={data.circleY}
-                      text-anchor="middle"
-                      stroke-width="2px"
-                      fill=" rgb(4, 4, 61);"
-                      alignment-baseline="middle"
+                      textAnchor="middle"
+                      strokeWidth="2px"
+                      fill=" rgb(4, 4, 61)"
+                      alignmentBaseline="middle"
                       style={{
                         fontSize: `${radius / 1}px`,
-                        color: " rgb(4, 4, 61);",
+                        color: " rgb(4, 4, 61)",
                         backgroundColor: "whitesmoke",
                       }}
                     >
                       {data.value}
                     </text>
-                  </>
+                  </React.Fragment>
                 );
               })}
               {canvasTree?.map((data, index) => {
@@ -273,6 +273,7 @@ const TreeVisualizer = (props: { radius?: number }) => {
                     <line
                       x1={data.lineLeftX}
                       y1={data.lineLeftY}
+                      key={v4()}
                       x2={canvasTree[data.leftChildIndex].lineUpX}
                       y2={canvasTree[data.leftChildIndex].lineUpY}
                       strokeWidth={2}
@@ -285,6 +286,7 @@ const TreeVisualizer = (props: { radius?: number }) => {
                     <line
                       x1={data.lineRightX}
                       y1={data.lineRightY}
+                      key={v4()}
                       x2={canvasTree[data.rightChildIndex].lineUpX}
                       y2={canvasTree[data.rightChildIndex].lineUpY}
                       strokeWidth={2}
